@@ -1,0 +1,41 @@
+name: Terraform Lint
+on: workflow_dispatch
+
+jobs:
+  tflint:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
+    steps:
+    - uses: actions/checkout@v3
+      name: Checkout source code
+
+    - uses: terraform-linters/setup-tflint@v4
+      name: Setup TFLint
+
+    - name: Show version
+      run: tflint --version
+
+    - name: Init TFLint
+      run: tflint --init
+      env:
+        # https://github.com/terraform-linters/tflint/blob/master/docs/user-guide/plugins.md#avoiding-rate-limiting
+        GITHUB_TOKEN: ${{ github.token }}
+
+    - name: Run TFLint
+      run: tflint -f compact --recursive
+
+    - uses: terraform-linters/setup-tflint@v4
+      with:
+        tflint_wrapper: true
+
+    - id: tflint
+      run: tflint -f compact --recursive
+
+    - run: echo ${{ steps.tflint.outputs.stdout }}
+    - run: echo ${{ steps.tflint.outputs.stderr }}
+    - run: echo ${{ steps.tflint.outputs.exitcode }}
+
