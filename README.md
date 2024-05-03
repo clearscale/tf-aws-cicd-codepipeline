@@ -22,7 +22,7 @@ locals {
   account_repo_canonical_id = "2B3C4D5E6F7A8B9C0D1E2F3A4B5C6D7E8F9A0B1C2D3E4F5A6B7C8D9E0F1A2B3C4D5E6F7"
 
   repo_name = "test"
-  repo_role = "arn:aws:iam::654654579692:role/CsTffwkcs.Shared.USW1.CodeCommit.Test"
+  repo_role = "arn:aws:iam::123456789012:role/CsTffwkcs.Shared.USW1.CodeCommit.Test"
 
   # Format for CodeBuild module
   stages = [{
@@ -216,7 +216,7 @@ module "s3_bucket" {
 #   c. Finally, deploy the remaining resources.
 #
 module "codepipeline_iam" {
-  source    = "https://github.com/clearscale/tf-aws-cicd-codepipeline.git//iam?ref=v1.0.0"
+  source    = "github.com/clearscale/tf-aws-cicd-codepipeline.git//iam?ref=v1.0.0"
 
   account = {
     id = "*", name = local.account.name, provider = "aws", key = "current", region = local.region.name
@@ -251,7 +251,7 @@ module "codepipeline_iam" {
 
 
 module "codepipeline" {
-  source    = "https://github.com/clearscale/tf-aws-cicd-codepipeline.git?ref=v1.0.0"
+  source    = "github.com/clearscale/tf-aws-cicd-codepipeline.git?ref=v1.0.0"
 
   account = {
     id = "*", name = local.account.name, provider = "aws", key = "current", region = local.region.name
