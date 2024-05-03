@@ -29,9 +29,8 @@ locals {
   )
 
   # Get IAM role names from standardization module output
-  context         = jsondecode(jsonencode(module.context.accounts))
   iam_role_prefix = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/"
-  iam_role_raw    = var.role != "" ? var.role : local.context.aws[0].prefix.dot.full.function
+  iam_role_raw    = var.role != "" ? var.role : module.std.names.aws[var.account.name].title
   iam_role        = (startswith(local.iam_role_raw, local.iam_role_prefix)
     ? local.iam_role_raw
     : "${local.iam_role_prefix}${local.iam_role_raw}"
@@ -108,7 +107,7 @@ variable "name" {
 
 variable "role" {
   type        = string
-  description = "(Optional). Override the ARN of the CodePipeline Service role. Generated from the tf-context module if not specified."
+  description = "(Optional). Override the ARN of the CodePipeline Service role. Generated from the tf-standards module if not specified."
   default     = ""
 }
 

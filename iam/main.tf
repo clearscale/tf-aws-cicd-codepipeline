@@ -1,9 +1,8 @@
 #
 # Import standardization module
 #
-module "context" {
-  source    = "../../tf-context"
-  providers = { aws = aws }
+module "std" {
+  source =  "github.com/clearscale/tf-standards.git?ref=v1.0.0"
 
   prefix   = var.prefix
   client   = var.client
@@ -11,8 +10,9 @@ module "context" {
   accounts = [var.account]
   env      = var.env
   region   = var.region
-  name     = var.name
-  function = var.repo.action.configuration.RepositoryName
+  name     = "CodePipeline"
+  function = var.name
+  suffix   = var.repo.action.configuration.RepositoryName
 }
 
 resource "aws_iam_role" "this" {

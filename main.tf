@@ -1,9 +1,8 @@
 #
 # Import standardization module
 #
-module "context" {
-  source    = "../tf-context"
-  providers = { aws = aws }
+module "std" {
+  source =  "github.com/clearscale/tf-standards.git?ref=v1.0.0"
 
   prefix   = var.prefix
   client   = var.client

@@ -8,3 +8,8 @@ output "role" {
     create_date = aws_iam_role.this.create_date
   }
 }
+
+output "policy" {
+  description = "Service role policy."
+  value       = aws_iam_policy.this.arn
+}

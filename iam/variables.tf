@@ -44,8 +44,7 @@ locals {
   )
 
   # Get IAM role names from standardization module output
-  context    = jsondecode(jsonencode(module.context.accounts))
-  iam_role   = local.context.aws[0].prefix.dot.full.function
+  iam_role = module.std.names.aws[var.account.name].title
 
   # Set var.stages[x].action.configuration.ProjectName with var.stages[x].name if null or empty
   updated_stages = [for stage in var.stages : {
